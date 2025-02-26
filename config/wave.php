@@ -22,11 +22,17 @@ return [
 	'primary_color' => '#000000',
 
 	'user_model' => \App\Models\User::class,
+    'workspace_model' => \App\Models\Workspace::class,
+    'workspace_invitation_model' => \App\Models\WorkspaceInvitation::class,
+    'workspace_membership_model' => \App\Models\Membership::class,
+
 	'show_docs' => env('WAVE_DOCS', true),
     'demo' => env('WAVE_DEMO', false),
     'dev_bar' => env('WAVE_BAR', false),
 	'default_user_role' => 'registered',
 
+    'billing' => env('BILLING', true),
+    'billing_type' => env('BILLING_TYPE', 'user'),
 	'billing_provider' => env('BILLING_PROVIDER', 'stripe'),
 
     'paddle' => [

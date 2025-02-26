@@ -30,6 +30,15 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::post('subscribe', '\Wave\Http\Controllers\SubscriptionController@subscribe')->name('wave.subscribe');
     Route::post('switch-plans', '\Wave\Http\Controllers\SubscriptionController@switchPlans')->name('wave.switch-plans');
+
+
+    Route::get('/workspace/', '\Wave\Http\Livewire\Workspace\WorkspaceController@show')->name('wave.workspace.show');
+    //Route::get('/workspace/create', '\Wave\Http\Livewire\Workspace\WorkspaceController@create')->name('wave.workspace.create');
+    Route::put('/current-workspace', '\Wave\Http\Controllers\Workspace\CurrentWorkspaceController@update')->name('wave.current-workspace.update');
+
+    Route::get('/workspace-invitations/{invitation}', '\Wave\Http\Controllers\Workspace\WorkspaceInvitationController@accept')
+        ->middleware(['signed'])
+        ->name('wave.workspace-invitations.accept');
 });
 
 Route::get('wave/theme/image/{theme_name}', '\Wave\Http\Controllers\ThemeImageController@show');

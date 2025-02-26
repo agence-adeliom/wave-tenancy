@@ -45,10 +45,15 @@ class Subscription extends Model
     /**
      * The user that owns the subscription.
      */
-    public function user()
+    public function subscriber()
     {
-        return $this->belongsTo(config('wave.user_model', 'App\Models\User'), 'billable_id');
+        $model = match (config('wave.billing_type', 'user')) {
+            'workspace' => config('wave.workspace_model', 'App\Models\Workspace'),
+            default => config('wave.user_model', 'App\Models\User'),
+        };
+        return $this->belongsTo($model, 'billable_id');
     }
+
 
     public function cancel(){
         $this->status = 'cancelled';

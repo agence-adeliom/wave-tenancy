@@ -39,6 +39,8 @@ class WaveServiceProvider extends ServiceProvider
 	        return new Wave();
 	    });
 
+        $this->configurePermissions();
+
 	    $this->loadHelpers();
 
         $this->loadLivewireComponents();
@@ -46,7 +48,7 @@ class WaveServiceProvider extends ServiceProvider
         $this->app->router->aliasMiddleware('paddle-webhook-signature', \Wave\Http\Middleware\VerifyPaddleWebhookSignature::class);
     	$this->app->router->aliasMiddleware('subscribed', \Wave\Http\Middleware\Subscribed::class);
         $this->app->router->aliasMiddleware('token_api', \Wave\Http\Middleware\TokenMiddleware::class);
-        
+
         if(!$this->hasDBConnection()){
             $this->app->router->pushMiddlewareToGroup('web', \Wave\Http\Middleware\InstallMiddleware::class);
         }
@@ -222,6 +224,25 @@ class WaveServiceProvider extends ServiceProvider
         }
 
         return $hasDatabaseConnection;
+    }
+
+    /**
+     * Configure the roles and permissions that are available within the application.
+     */
+    protected function configurePermissions(): void
+    {
+        Wave::role('admin', 'Administrator', [
+            'create',
+            'read',
+            'update',
+            'delete',
+        ])->description('Administrator users can perform any action.');
+
+        Wave::role('editor', 'Editor', [
+            'read',
+            'create',
+            'update',
+        ])->description('Editor users have the ability to read, create, and update.');
     }
 
 }
